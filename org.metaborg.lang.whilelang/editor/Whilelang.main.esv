@@ -1,0 +1,31 @@
+module Whilelang.main
+
+imports
+  Whilelang-Colorer
+  Whilelang-Completions
+  Whilelang-Folding
+  Whilelang-Menus
+  Whilelang-Refactorings
+  Whilelang-References
+  Whilelang-Syntax
+  Whilelang-Views
+
+language General properties
+  
+  name:          Whilelang
+  id:            org.metaborg.lang.whilelang
+  extends:       Root
+  
+  description:   "Spoofax-generated editor for the Whilelang language"
+  url:           http://strategoxt.org
+  
+  extensions:    w
+  table:         include/Whilelang.tbl
+  start symbols: Start
+  
+  provider:      include/whilelang.ctree
+  provider:      include/whilelang-java.jar
+  
+  observer:      editor-analyze (multifile)
+  
+  on save:       editor-save

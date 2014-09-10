@@ -1,0 +1,13 @@
+module editor/Whilelang-Outliner
+
+imports
+  
+  include/Whilelang
+  lib/runtime/editor/outline-library
+  lib/runtime/editor/origins
+  editor/Whilelang-Outliner.generated
+
+rules
+  
+  to-outline-label = fail
+  

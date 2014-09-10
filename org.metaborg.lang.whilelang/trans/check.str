@@ -1,0 +1,17 @@
+module check
+
+imports
+
+	include/Whilelang
+
+rules // Extensions for error/warning/note reporting
+	
+	constraint-error:
+		_ -> <fail>
+ 
+	constraint-warning:
+		_ -> <fail>
+		
+	constraint-note:
+		_ -> <fail>
+

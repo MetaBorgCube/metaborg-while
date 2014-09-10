@@ -1,0 +1,64 @@
+module Whilelang
+
+imports
+	
+	Common
+
+context-free start-symbols
+  
+  Start
+
+templates
+  
+  Start = <<Statement>>
+  
+  Statement = <(<Statement>)> {bracket}
+
+  Statement.VarDec = <var <ID>>
+  Statement.Skip = <skip>
+  Statement.Seq = <
+      <Statement>;
+      <Statement>
+    >
+
+  Statement.Assign = <<ID> := <ArithExpr>>
+  
+  Statement.If = <
+    if <BoolExpr> then
+      <Statement>
+    else
+      <Statement>
+    >
+
+  Statement.While = <
+    while <BoolExpr> do
+      <Statement>
+    >
+
+  
+  ArithExpr.Var = <<ID>>
+  ArithExpr.Int = <<INT>>
+  
+  ArithExpr.Plus = <<ArithExpr> + <ArithExpr>>
+  ArithExpr.Minus = <<ArithExpr> - <ArithExpr>>
+  ArithExpr.Times = <<ArithExpr> * <ArithExpr>>
+
+  BoolExpr.True = <true>
+  BoolExpr.False = <false>
+  BoolExpr.Not = <not <BoolExpr>>
+
+  BoolExpr.And = <<BoolExpr> && <BoolExpr>> 
+  BoolExpr.Or = <<BoolExpr> || <BoolExpr>>
+
+  BoolExpr.Gt = [[ArithExpr] > [ArithExpr]]
+  BoolExpr.Eq = <<ArithExpr> == <ArithExpr>> 
+
+context-free priorities
+  BoolExpr.Not
+  > ArithExpr.Times
+  > {left: ArithExpr.Plus ArithExpr.Minus}
+  > { BoolExpr.Gt }
+  > { BoolExpr.And BoolExpr.Or }
+  > {left: Statement.Seq }
+
+

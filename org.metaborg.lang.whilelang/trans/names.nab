@@ -1,0 +1,10 @@
+module names
+
+imports
+	
+	include/Whilelang
+	
+namespaces
+	
+binding rules
+

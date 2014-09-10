@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         point="org.eclipse.imp.runtime.languageDescription">
+      <language
+            extensions="w"
+            description="Whilelang"
+            language="Whilelang"
+            derivedFrom="DynamicRoot"
+            validator="org.metaborg.lang.whilelang.WhilelangValidator"
+            validatorClass="org.metaborg.lang.whilelang.WhilelangValidator"
+      ></language>
+   </extension>
+   <extension
+         id="org.metaborg.lang.whilelang.parser"
+         name="Whilelang Parser"
+         point="org.eclipse.imp.runtime.parser">
+      <parser
+            class="org.metaborg.lang.whilelang.WhilelangParseController"
+            language="Whilelang">
+      </parser>
+   </extension>    
+</plugin>
