@@ -20,4 +20,34 @@ signature
 
   arrows
     BoolOp -bop-> Bool
+
+rules
+
+  and(b1, b2) -bop-> b3
+  where
+    b1 == true,
+    b2 == true,
+    true => b3
+  
+  and(b1, b2) -bop-> false
+  where
+    all-fail
+
+  or(b1, b2) -bop-> false
+  where
+    b1 == false,
+    b2 == false
+  
+  or(b1, b2) -bop-> true
+  where
+    all-fail
+
+  not(b1) -bop-> true
+  where
+    b1 == false
+  
+  not(b1) -bop-> false
+  where
+    b1 == true
+
     
