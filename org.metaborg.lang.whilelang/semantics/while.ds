@@ -64,21 +64,25 @@ rules
   
   If(e, s1, s2) --> SKIP()
   where
-    e -bexp-> true,
+    e -bexp-> v,
+    v == true,
     s1 --> SKIP()
   
   If(e, s1, s2) --> SKIP()
   where
-    e -bexp-> false,
+    e -bexp-> v,
+    v == false,
     s2 --> SKIP()
 
   While(e, s) --> SKIP()
   where
-    e -bexp-> false
+    e -bexp-> v,
+    v == false
 
   While(e, s) --> SKIP()
   where
-    e -bexp-> true,
+    e -bexp-> v,
+    v == true,
     s --> SKIP(),
     While(e, s) --> SKIP()
 
