@@ -34,26 +34,26 @@ signature
     State  -> Map<String, Int>
   
   sorts
-    SKIP
+    V_SKIP
   
   constructors
-    SKIP : -> SKIP
+    V_SKIP : -> V_SKIP
   
   arrows
-    Statement --> SKIP
+    Statement --> V_SKIP
     BoolExpr -bexp-> Bool
     ArithExpr -aexp-> Int
   
 rules
 
-  Seq(s1, s2) --> SKIP()
+  Seq(s1, s2) --> V_SKIP()
   where
-    s1 --> SKIP(),
-    s2 --> SKIP()
+    s1 --> V_SKIP(),
+    s2 --> V_SKIP()
 
-  VarDec(x) --> SKIP()
+  VarDec(x) --> V_SKIP()
 
-  (Assign(x, e), State s) --> (SKIP(), State { x |--> i } + s)
+  (Assign(x, e), State s) --> (V_SKIP(), State { x |--> i } + s)
   where
     e -aexp-> i
   
@@ -62,29 +62,29 @@ rules
     s[a] => v
 
   
-  If(e, s1, s2) --> SKIP()
+  If(e, s1, s2) --> V_SKIP()
   where
     e -bexp-> v,
     v == true,
-    s1 --> SKIP()
+    s1 --> V_SKIP()
   
-  If(e, s1, s2) --> SKIP()
+  If(e, s1, s2) --> V_SKIP()
   where
     e -bexp-> v,
     v == false,
-    s2 --> SKIP()
+    s2 --> V_SKIP()
 
-  While(e, s) --> SKIP()
+  While(e, s) --> V_SKIP()
   where
     e -bexp-> v,
     v == false
 
-  While(e, s) --> SKIP()
+  While(e, s) --> V_SKIP()
   where
     e -bexp-> v,
     v == true,
-    s --> SKIP(),
-    While(e, s) --> SKIP()
+    s --> V_SKIP(),
+    While(e, s) --> V_SKIP()
 
   Plus(e1, e2) -aexp-> v3
   where
@@ -114,18 +114,18 @@ rules
   where
     e1 -bexp-> b1,
     e2 -bexp-> b2,
-    and(b1, b2) -bop-> b3
+    b_and(b1, b2) -bop-> b3
   
   Or(e1, e2) -bexp-> b3
   where
     e1 -bexp-> b1,
     e2 -bexp-> b2,
-    or(b1, b2) -bop-> b3
+    b_or(b1, b2) -bop-> b3
   
   Not(e1) -bexp-> b
   where
     e1 -bexp-> b1,
-    not(b1) -bop-> b
+    b_not(b1) -bop-> b
   
   Eq(e1, e2) -bexp-> b
   where
