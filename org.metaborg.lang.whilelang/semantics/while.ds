@@ -1,0 +1,138 @@
+module while
+
+imports
+  base
+  natives
+
+signature
+  sorts
+    Statement
+    ArithExpr
+    BoolExpr
+
+  constructors
+    Eq     : ArithExpr * ArithExpr -> BoolExpr
+    Gt     : ArithExpr * ArithExpr -> BoolExpr
+    Or     : BoolExpr * BoolExpr -> BoolExpr
+    And    : BoolExpr * BoolExpr -> BoolExpr
+    Not    : BoolExpr -> BoolExpr
+    False  : -> BoolExpr
+    True   : -> BoolExpr
+    Times  : ArithExpr * ArithExpr -> ArithExpr
+    Minus  : ArithExpr * ArithExpr -> ArithExpr
+    Plus   : ArithExpr * ArithExpr -> ArithExpr
+    Int    : Int -> ArithExpr
+    Var    : String -> ArithExpr
+    While  : BoolExpr * Statement -> Statement
+    If     : BoolExpr * Statement * Statement -> Statement
+    Assign : String * ArithExpr -> Statement
+    Seq    : Statement * Statement -> Statement
+    Skip   : -> Statement
+    VarDec : Int -> Statement
+  
+  semantic-components
+    State  -> Map<String, Int>
+  
+  sorts
+    SKIP
+  
+  constructors
+    SKIP : -> SKIP
+  
+  arrows
+    Statement --> SKIP
+    BoolExpr -bexp-> Bool
+    ArithExpr -aexp-> Int
+  
+rules
+
+  Seq(s1, s2) --> SKIP()
+  where
+    s1 --> SKIP(),
+    s2 --> SKIP()
+
+  VarDec(x) --> SKIP()
+
+  (Assign(x, e), State s) --> (SKIP(), State { x |--> i } + s)
+  where
+    e -aexp-> i
+  
+  (Var(a), State s) -aexp-> (v, State s)
+  where
+    s[a] => v
+
+  
+  If(e, s1, s2) --> SKIP()
+  where
+    e -bexp-> true,
+    s1 --> SKIP()
+  
+  If(e, s1, s2) --> SKIP()
+  where
+    e -bexp-> false,
+    s2 --> SKIP()
+
+  While(e, s) --> SKIP()
+  where
+    e -bexp-> false
+
+  While(e, s) --> SKIP()
+  where
+    e -bexp-> true,
+    s --> SKIP(),
+    While(e, s) --> SKIP()
+
+  Plus(e1, e2) -aexp-> v3
+  where
+    e1 -aexp-> v1,
+    e2 -aexp-> v2,
+    int_plus(v1, v2) => v3
+  
+  Minus(e1, e2) -aexp-> v3
+  where
+    e1 -aexp-> v1,
+    e2 -aexp-> v2,
+    int_minus(v1, v2) => v3
+  
+  Times(e1, e2) -aexp-> v3
+  where
+    e1 -aexp-> v1,
+    e2 -aexp-> v2,
+    int_times(v1, v2) => v3
+  
+  Gt(e1, e2) -bexp-> b
+  where
+    e1 -aexp-> v1,
+    e2 -aexp-> v2,
+    int_gt(v1, v2) => b
+  
+  And(e1, e2) -bexp-> b3
+  where
+    e1 -bexp-> b1,
+    e2 -bexp-> b2,
+    and(b1, b2) -bop-> b3
+  
+  Or(e1, e2) -bexp-> b3
+  where
+    e1 -bexp-> b1,
+    e2 -bexp-> b2,
+    or(b1, b2) -bop-> b3
+  
+  Not(e1) -bexp-> b
+  where
+    e1 -bexp-> b1,
+    not(b1) -bop-> b
+  
+  Eq(e1, e2) -bexp-> b
+  where
+    e1 -aexp-> v1,
+    e2 -aexp-> v2,
+    v1 == v2,
+    true => b
+  
+  Eq(e1, e2) -bexp-> b
+  where
+    e1 -aexp-> v1,
+    e2 -aexp-> v2,
+    v1 != v2,
+    false => b

@@ -35,7 +35,7 @@ templates
       <Statement>
     >
 
-  
+  ArithExpr = <(<ArithExpr>)> {bracket}
   ArithExpr.Var = <<ID>>
   ArithExpr.Int = <<INT>>
   
@@ -43,11 +43,12 @@ templates
   ArithExpr.Minus = <<ArithExpr> - <ArithExpr>>
   ArithExpr.Times = <<ArithExpr> * <ArithExpr>>
 
+  BoolExpr = <(<BoolExpr>)> {bracket}
   BoolExpr.True = <true>
   BoolExpr.False = <false>
   BoolExpr.Not = <not <BoolExpr>>
 
-  BoolExpr.And = <<BoolExpr> && <BoolExpr>> 
+  BoolExpr.And = <<BoolExpr> && <BoolExpr>>
   BoolExpr.Or = <<BoolExpr> || <BoolExpr>>
 
   BoolExpr.Gt = [[ArithExpr] > [ArithExpr]]

@@ -1,0 +1,23 @@
+module natives
+
+imports
+  base
+
+signature
+  native-operators
+    int_plus: Int * Int -> Int
+    int_minus: Int * Int -> Int
+    int_times: Int * Int -> Int
+    int_gt: Int * Int -> Bool
+  
+  internal-sorts
+    BoolOp
+  
+  internal-constructors
+    and: Bool * Bool -> BoolOp
+    or: Bool * Bool -> BoolOp
+    not: Bool -> BoolOp
+
+  arrows
+    BoolOp -bop-> Bool
+    
